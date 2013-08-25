@@ -1,0 +1,25 @@
+Road Map to My Project
+
+1)  First figured out how to access BigQuery using OAuth Authentication.
+2)  Then figured out how to export data in csv format from a local csv file to BQ.
+3)  Found out the method to get logs for an app from App Engine Log Store.
+4)  Initially, sent the logs directly from Log Store to BigQuery using Http POST.
+5)  As an alternative, sent the logs from Log Store to BigQuery using Google Cloud Storage as intermediate.
+6)  Decided to go with 5) since sending log data as just a Http POST request is not feasible in case we have
+    large log data.
+7)  Next, created our own logging class that logs messages in App Engine Log Store in csv format.
+8)  Created a command line tool that provides the user an interface to specify the necessary IDs and table schema.
+9)  Later added the functionality in command line tool for creating our logging class dynamically from the
+    information provided by the user.
+10) Then figured out how to execute this process as a background job (used the concept of cron job).
+11) For better scalability decided to send the logs in chunks to google storage.
+12) Used TaskQueue. (the process of sending a single chunk of logs was pushed as a background task into the TaskQueue).
+13) Instead of adding chunks of logs to a single file on GS, wrote multiple files (for each chunk) on GS.
+
+Some More Functionalities to be Added
+
+1)  The client library has been written in Python, need to be written in Java as well.
+2)  Right now focussed on App Engine apps. The same framework needs to be provided for android apps also.
+3)  Each day cron job sends some logs to BigQuery table. The cron job for the next day should pick up from
+    where the previous cron job left off. (a timestamp to be added depicting the end_time till which all the logs
+    have been sent)
